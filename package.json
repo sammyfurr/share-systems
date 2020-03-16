@@ -1,0 +1,30 @@
+{
+  "name": "share-systems",
+  "version": "0.0.1",
+  "description": "Sharing code for systems class!",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.14.1",
+    "monaco-editor": "^0.20.0",
+    "mongodb": "^3.5.5",
+    "ejs": "^3.0.1",
+    "passport": "^0.4.1",
+    "passport-github": "^1.1.0",
+    "express-session": "^1.16.1",
+    "mongoose": "^5.9.4",
+    "socket.io": "^2.3.0"
+  },
+  "engines": {
+    "node": "10.x"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "monaco-editor",
+    "mongodb"
+  ],
+  "license": "MIT"
+}

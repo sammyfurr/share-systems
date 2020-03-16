@@ -1,0 +1,19 @@
+<!-- views/partials/header.ejs -->
+<div id="header" class="container-fluid">
+  <div class="row">
+    <div class="col-8">
+      <h1 class="display-4">Systems Share!</p>
+      <p class="h2">A place to share systems code for tutoring!</p>
+    </div>
+    <div class="col">
+      <div class="float-right">
+      <% if (typeof user !== 'undefined') { %> 
+        <p class="h3"><%= user.githubDisplayName %></p>
+        <a href="logout">Logout</a>
+      <% } else { %>
+        <a href="/auth/github">Login with github</a>    
+      <% } %>
+      </div>
+    </div>
+  </div>
+</div>

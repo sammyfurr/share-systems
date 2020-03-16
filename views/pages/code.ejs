@@ -1,0 +1,67 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../partials/head') %>
+  </head>
+  
+  <body>
+    <header>
+      <%- include('../partials/header') %>
+    </header>
+
+    <main>
+      <div id="container" ></div>
+    </main>
+    <script src="/socket.io-client/dist/socket.io.js"></script>
+    <script src="/monaco-editor/min/vs/loader.js"></script>
+    <script>
+      require.config({ paths: { 'vs': '/monaco-editor/min/vs' }});
+
+      require(['vs/editor/editor.main'], function() {
+        // Register a new language
+        monaco.languages.register({ id: 'armv8' });
+
+        // Register a tokens provider for the language
+        monaco.languages.setMonarchTokensProvider('armv8', {
+            tokenizer: {
+          root: [
+              [/\w+(?=:)/, 'label'],
+              [/\.\w+/, 'dot'],
+              [/;.*|\/\*.*\*\//, 'comment'],
+          ]
+            }
+        });
+
+        // Define a new theme that contains only rules that match this language
+        monaco.editor.defineTheme('armv8theme', {
+            base: 'vs',
+            inherit: false,
+            rules: [
+          { token: 'label', foreground: '#268bd2' },
+          { token: 'dot', foreground: '#cb4b16' },
+          { token: 'comment', foreground: '#657b83' },
+            ],
+        });
+
+        var editor = monaco.editor.create(document.getElementById('container'), {
+            theme: 'armv8theme',
+            language: 'armv8'
+        });
+
+        editor.getModel().applyEdits([{
+            range: monaco.Range.fromPositions(editor.getPosition())
+        }]);
+
+        var socket = io();
+
+        editor.getModel().onDidChangeContent((event) => {
+          var value = editor.getValue()
+          socket.emit('code', {id: <%= user._id %>, editor: value});
+        });
+      });
+    </script>
+  </body>
+</html>
